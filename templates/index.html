@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket Test</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/5.3.6/socket.io.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize connection to the WebSocket server
+            const socket = io('http://localhost:5000', {
+                transports: ['websocket', 'polling'],  // Specify transports
+                upgrade: false  // Disable upgrading for testing purposes
+            });
+
+            // Event handler for successful connection
+            socket.on('connect', () => {
+                console.log('WebSocket connected!');
+                socket.emit('message', 'Hello from client!');  // Emit a message after connection
+            });
+
+            // Event handler for receiving a message
+            socket.on('message', (msg) => {
+                console.log('Received:', msg);
+            });
+
+            // Event handler for disconnection
+            socket.on('disconnect', () => {
+                console.log('WebSocket disconnected');
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>WebSocket Connection Test</h1>
+    <p>Open the browser console to see WebSocket messages.</p>
+</body>
+</html>
